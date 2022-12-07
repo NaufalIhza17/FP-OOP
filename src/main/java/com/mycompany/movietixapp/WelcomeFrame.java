@@ -5,6 +5,7 @@
 package com.mycompany.movietixapp;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -49,16 +50,20 @@ public class WelcomeFrame extends javax.swing.JFrame {
         OrderTitle2 = new javax.swing.JLabel();
         Display = new javax.swing.JPanel();
         Display1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        javax.swing.JButton PayButton = new javax.swing.JButton();
         LocationLabel = new javax.swing.JLabel();
         MovieNameLabel = new javax.swing.JLabel();
         SeatsLabel = new javax.swing.JLabel();
         LocationInput = new javax.swing.JComboBox<>();
         MovieNameInput = new javax.swing.JComboBox<>();
         SeatsInput = new javax.swing.JSpinner();
+        TimeLabel = new javax.swing.JLabel();
+        TimeInput = new javax.swing.JComboBox<>();
         Display2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        javax.swing.JButton BackButton = new javax.swing.JButton();
+        javax.swing.JButton OrderFixButton = new javax.swing.JButton();
+        SeatsPicturePanel = new javax.swing.JPanel();
+        SeatsImagePlot = new javax.swing.JLabel();
         HistoryPage = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         HistoryTable = new javax.swing.JTable();
@@ -66,6 +71,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
         HistoryTitle2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(582, 504));
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(582, 504));
 
         NavBar.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -235,16 +243,16 @@ public class WelcomeFrame extends javax.swing.JFrame {
         Display.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         Display.setLayout(new java.awt.CardLayout());
 
-        jButton1.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
-        jButton1.setText("Pay");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        PayButton.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
+        PayButton.setText("Pay");
+        PayButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                PayButtonMouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        PayButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                PayButtonActionPerformed(evt);
             }
         });
 
@@ -263,6 +271,12 @@ public class WelcomeFrame extends javax.swing.JFrame {
         MovieNameInput.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
         MovieNameInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Thor", "Imperfect", "Top Gun Maverick", "Despicable Me" }));
 
+        TimeLabel.setFont(new java.awt.Font("STZhongsong", 2, 14)); // NOI18N
+        TimeLabel.setText("Time");
+
+        TimeInput.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
+        TimeInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "11:00 - 13:00", "13:00 - 15:00", "15:00 - 17:00", "17:00 - 19:00", "19:00 - 21:00", "21:00 - 23:00" }));
+
         javax.swing.GroupLayout Display1Layout = new javax.swing.GroupLayout(Display1);
         Display1.setLayout(Display1Layout);
         Display1Layout.setHorizontalGroup(
@@ -271,7 +285,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
                 .addGroup(Display1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(PayButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(Display1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(Display1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,7 +296,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
                                 .addGroup(Display1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(LocationInput, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(MovieNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(SeatsInput, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(SeatsInput, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TimeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 37, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -301,47 +317,78 @@ public class WelcomeFrame extends javax.swing.JFrame {
                 .addComponent(SeatsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SeatsInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TimeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TimeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addComponent(PayButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         Display.add(Display1, "card2");
 
-        jButton2.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
-        jButton2.setText("Back");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        BackButton.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
+        BackButton.setText("Back");
+        BackButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
+                BackButtonMouseClicked(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
-        jButton3.setText("Order");
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+        OrderFixButton.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
+        OrderFixButton.setText("Order");
+        OrderFixButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton3MouseClicked(evt);
+                OrderFixButtonMouseClicked(evt);
             }
         });
+        OrderFixButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OrderFixButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout SeatsPicturePanelLayout = new javax.swing.GroupLayout(SeatsPicturePanel);
+        SeatsPicturePanel.setLayout(SeatsPicturePanelLayout);
+        SeatsPicturePanelLayout.setHorizontalGroup(
+            SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(SeatsImagePlot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        SeatsPicturePanelLayout.setVerticalGroup(
+            SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(SeatsImagePlot, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout Display2Layout = new javax.swing.GroupLayout(Display2);
         Display2.setLayout(Display2Layout);
         Display2Layout.setHorizontalGroup(
             Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Display2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(SeatsPicturePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(Display2Layout.createSequentialGroup()
+                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
+                        .addComponent(OrderFixButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         Display2Layout.setVerticalGroup(
             Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display2Layout.createSequentialGroup()
-                .addContainerGap(337, Short.MAX_VALUE)
-                .addGroup(Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(jButton2))
+                .addContainerGap()
+                .addComponent(SeatsPicturePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                .addGroup(Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(OrderFixButton, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(BackButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -383,7 +430,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Movie Name", "Tickets", "Total Price", "Date"
+                "Location", "Movie Name", "Tickets", "Time", "Date", "Total Price"
             }
         ));
         jScrollPane1.setViewportView(HistoryTable);
@@ -467,11 +514,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_OrderButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void PayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PayButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println(LocationInput.getName());
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_PayButtonActionPerformed
 
     private void HomeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeButtonMouseClicked
         // TODO add your handling code here:
@@ -512,20 +557,26 @@ public class WelcomeFrame extends javax.swing.JFrame {
         Tab.revalidate();
     }//GEN-LAST:event_HistoryButtonMouseClicked
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void PayButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PayButtonMouseClicked
         // TODO add your handling code here:
-        // Remove Panel
-        Display.removeAll();
-        Display.repaint();
-        Display.revalidate();
+        int check = (Integer) SeatsInput.getValue();
         
-        // Add Panel
-        Display.add(Display2);
-        Display.repaint();
-        Display.revalidate();
-    }//GEN-LAST:event_jButton1MouseClicked
+        if (check <= 0 || check > 9) {
+            JOptionPane.showMessageDialog(this, "You can't input this much numbers of seats", "Try again", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Remove Panel
+            Display.removeAll();
+            Display.repaint();
+            Display.revalidate();
+        
+            // Add Panel
+            Display.add(Display2);
+            Display.repaint();
+            Display.revalidate();
+        }
+    }//GEN-LAST:event_PayButtonMouseClicked
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+    private void BackButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BackButtonMouseClicked
         // TODO add your handling code here:
         Display.removeAll();
         Display.repaint();
@@ -535,13 +586,30 @@ public class WelcomeFrame extends javax.swing.JFrame {
         Display.add(Display1);
         Display.repaint();
         Display.revalidate();
-    }//GEN-LAST:event_jButton2MouseClicked
+    }//GEN-LAST:event_BackButtonMouseClicked
 
-    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+    private void OrderFixButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrderFixButtonMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "We have confirm your order!");
         
-    }//GEN-LAST:event_jButton3MouseClicked
+    }//GEN-LAST:event_OrderFixButtonMouseClicked
+
+    private void OrderFixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrderFixButtonActionPerformed
+        // TODO add your handling code here:
+        String location = (String) LocationInput.getSelectedItem();
+        String movie = (String) MovieNameInput.getSelectedItem();
+        int seats = (Integer) SeatsInput.getValue();
+        String time = (String) TimeInput.getSelectedItem();
+        
+        if (location.isEmpty() || movie.isEmpty() || time.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter all fields", "Try again", JOptionPane.ERROR_MESSAGE);
+        } else if (seats < 1 || seats > 9) {
+            JOptionPane.showMessageDialog(this, "You can't input this much numbers of seats", "Try again", JOptionPane.ERROR_MESSAGE);
+        } else {
+            DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
+            model.addRow(new Object[] {location, movie, seats, time});
+            JOptionPane.showMessageDialog(null, "We have confirm your order!");
+        }
+    }//GEN-LAST:event_OrderFixButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -602,13 +670,14 @@ public class WelcomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel OrderPage;
     private javax.swing.JLabel OrderTitle1;
     private javax.swing.JLabel OrderTitle2;
+    private javax.swing.JLabel SeatsImagePlot;
     private javax.swing.JSpinner SeatsInput;
     private javax.swing.JLabel SeatsLabel;
+    private javax.swing.JPanel SeatsPicturePanel;
     private javax.swing.JPanel Tab;
+    private javax.swing.JComboBox<String> TimeInput;
+    private javax.swing.JLabel TimeLabel;
     private javax.swing.JLabel TopMovieTitle;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
