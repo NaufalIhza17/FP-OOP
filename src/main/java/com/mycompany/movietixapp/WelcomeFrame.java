@@ -4,6 +4,11 @@
  */
 package com.mycompany.movietixapp;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -41,7 +46,6 @@ public class WelcomeFrame extends javax.swing.JFrame {
         HomePageTitle1 = new javax.swing.JLabel();
         HomePageTitle2 = new javax.swing.JLabel();
         TopMovieTitle = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -72,10 +76,21 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(582, 504));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setMinimumSize(new java.awt.Dimension(582, 504));
 
-        NavBar.setBackground(new java.awt.Color(0, 102, 102));
+        NavBar.setBackground(new java.awt.Color(0, 0, 0));
 
         Headline1.setFont(new java.awt.Font("STZhongsong", 1, 24)); // NOI18N
         Headline1.setForeground(new java.awt.Color(255, 255, 255));
@@ -89,7 +104,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
         Headline2.setText("---Tix---");
         Headline2.setToolTipText("");
 
-        HomeButton.setBackground(new java.awt.Color(0, 204, 204));
+        HomeButton.setBackground(new java.awt.Color(204, 204, 204));
         HomeButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         HomeButton.setText("Home");
         HomeButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -103,7 +118,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
             }
         });
 
-        HistoryButton.setBackground(new java.awt.Color(0, 204, 204));
+        HistoryButton.setBackground(new java.awt.Color(204, 204, 204));
         HistoryButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         HistoryButton.setText("History");
         HistoryButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -117,7 +132,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
             }
         });
 
-        OrderButton.setBackground(new java.awt.Color(0, 204, 204));
+        OrderButton.setBackground(new java.awt.Color(204, 204, 204));
         OrderButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         OrderButton.setText("Order");
         OrderButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -135,11 +150,15 @@ public class WelcomeFrame extends javax.swing.JFrame {
         NavBar.setLayout(NavBarLayout);
         NavBarLayout.setHorizontalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HomeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
             .addComponent(Headline1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(Headline2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(HistoryButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-            .addComponent(OrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(HistoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(OrderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(HomeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         NavBarLayout.setVerticalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,14 +169,17 @@ public class WelcomeFrame extends javax.swing.JFrame {
                 .addComponent(Headline2)
                 .addGap(91, 91, 91)
                 .addComponent(HomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(OrderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HistoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        Tab.setBackground(new java.awt.Color(0, 51, 51));
         Tab.setLayout(new java.awt.CardLayout());
+
+        HomePage.setBackground(new java.awt.Color(255, 204, 102));
 
         HomePageTitle1.setFont(new java.awt.Font("STZhongsong", 1, 36)); // NOI18N
         HomePageTitle1.setText("HOME");
@@ -169,19 +191,19 @@ public class WelcomeFrame extends javax.swing.JFrame {
         TopMovieTitle.setFont(new java.awt.Font("Swis721 WGL4 BT", 3, 12)); // NOI18N
         TopMovieTitle.setText("TOP MOVIE THIS WEEK!");
 
-        jLabel5.setFont(new java.awt.Font("Swis721 WGL4 BT", 3, 12)); // NOI18N
-        jLabel5.setText("GUIDE TO BUY TICKET!");
-
+        jLabel7.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Imperfect");
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
+        jLabel8.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Thor");
         jLabel8.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
+        jLabel9.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Imperfect");
+        jLabel9.setText("Top Gun");
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout HomePageLayout = new javax.swing.GroupLayout(HomePage);
@@ -197,9 +219,6 @@ public class WelcomeFrame extends javax.swing.JFrame {
             .addGroup(HomePageLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(HomePageLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(HomePageLayout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -225,12 +244,12 @@ public class WelcomeFrame extends javax.swing.JFrame {
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addGap(103, 103, 103))
+                .addGap(138, 138, 138))
         );
 
         Tab.add(HomePage, "card2");
+
+        OrderPage.setBackground(new java.awt.Color(255, 204, 102));
 
         OrderTitle1.setFont(new java.awt.Font("STZhongsong", 1, 36)); // NOI18N
         OrderTitle1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -242,6 +261,8 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
         Display.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         Display.setLayout(new java.awt.CardLayout());
+
+        Display1.setBackground(new java.awt.Color(204, 204, 204));
 
         PayButton.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
         PayButton.setText("Pay");
@@ -327,6 +348,8 @@ public class WelcomeFrame extends javax.swing.JFrame {
         );
 
         Display.add(Display1, "card2");
+
+        Display2.setBackground(new java.awt.Color(204, 204, 204));
 
         BackButton.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
         BackButton.setText("Back");
@@ -425,6 +448,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
         Tab.add(OrderPage, "card3");
 
+        HistoryPage.setBackground(new java.awt.Color(255, 204, 102));
+
+        HistoryTable.setBackground(new java.awt.Color(204, 204, 204));
         HistoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -503,7 +529,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void HomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButtonActionPerformed
         // TODO add your handling code here:
-        
+       
     }//GEN-LAST:event_HomeButtonActionPerformed
 
     private void HistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoryButtonActionPerformed
@@ -611,6 +637,50 @@ public class WelcomeFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_OrderFixButtonActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
+        Vector<Vector> tableData = model.getDataVector();
+        
+        try {
+            FileOutputStream file = new FileOutputStream("file.bin");
+            ObjectOutputStream output = new ObjectOutputStream(file);
+            
+            output.writeObject(tableData);
+            
+            output.close();
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        try {
+            FileInputStream file = new FileInputStream("file.bin");
+            ObjectInputStream input = new ObjectInputStream(file);
+            
+            Vector<Vector> tableData = (Vector<Vector>)input.readObject();
+            
+            input.close();
+            file.close();
+            
+            DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
+            
+            for (int i = 0; i < tableData.size(); i++) {
+                Vector row = tableData.get(i);
+                model.addRow(new Object[] {row.get(0), row.get(1), row.get(2), row.get(3)});
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -678,7 +748,6 @@ public class WelcomeFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> TimeInput;
     private javax.swing.JLabel TimeLabel;
     private javax.swing.JLabel TopMovieTitle;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
