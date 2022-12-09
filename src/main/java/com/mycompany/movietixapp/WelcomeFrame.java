@@ -21,8 +21,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
     /**
      * Creates new form WelcomeFrame
      */
-    public WelcomeFrame() {
+    public WelcomeFrame(String username) {
         initComponents();
+        this.username = username;
     }
 
     /**
@@ -642,8 +643,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
         Vector<Vector> tableData = model.getDataVector();
         
+        
         try {
-            FileOutputStream file = new FileOutputStream("file.bin");
+            FileOutputStream file = new FileOutputStream(username + ".txt");
             ObjectOutputStream output = new ObjectOutputStream(file);
             
             output.writeObject(tableData);
@@ -651,7 +653,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
             output.close();
             file.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace();    
         }
     }//GEN-LAST:event_formWindowClosing
 
@@ -662,7 +664,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         try {
-            FileInputStream file = new FileInputStream("file.bin");
+            FileInputStream file = new FileInputStream(username + ".txt");
             ObjectInputStream input = new ObjectInputStream(file);
             
             Vector<Vector> tableData = (Vector<Vector>)input.readObject();
@@ -684,38 +686,39 @@ public class WelcomeFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
+//    public static void main(String args[]) {
+////        /* Set the Nimbus look and feel */
+////        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+////        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+////         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+////         */
+////        try {
+////            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+////                if ("Nimbus".equals(info.getName())) {
+////                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+////                    break;
+////                }
+////            }
+////        } catch (ClassNotFoundException ex) {
+////            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+////        } catch (InstantiationException ex) {
+////            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+////        } catch (IllegalAccessException ex) {
+////            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+////        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+////            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+////        }
+////        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new WelcomeFrame().setVisible(true);
 //            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
+//        });
+//    }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new WelcomeFrame().setVisible(true);
-            }
-        });
-    }
-
+    private String username;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Display;
     private javax.swing.JPanel Display1;
