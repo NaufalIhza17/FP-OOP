@@ -4,11 +4,19 @@
  */
 package com.mycompany.movietixapp;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;  
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +32,11 @@ public class WelcomeFrame extends javax.swing.JFrame {
     public WelcomeFrame(String username) {
         initComponents();
         this.username = username;
+        money.setEditable(false);
+        balanceFieldOrderPage.setEditable(false);
+        balanceNotEnough.setVisible(false);
+        scanDataTable(username);
+        money.setText("Rp"); //BALANCE CAL INPUT
     }
 
     /**
@@ -42,6 +55,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
         HomeButton = new javax.swing.JButton();
         HistoryButton = new javax.swing.JButton();
         OrderButton = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
         Tab = new javax.swing.JPanel();
         HomePage = new javax.swing.JPanel();
         HomePageTitle1 = new javax.swing.JLabel();
@@ -50,6 +64,8 @@ public class WelcomeFrame extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        money = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         OrderPage = new javax.swing.JPanel();
         OrderTitle1 = new javax.swing.JLabel();
         OrderTitle2 = new javax.swing.JLabel();
@@ -68,7 +84,19 @@ public class WelcomeFrame extends javax.swing.JFrame {
         javax.swing.JButton BackButton = new javax.swing.JButton();
         javax.swing.JButton OrderFixButton = new javax.swing.JButton();
         SeatsPicturePanel = new javax.swing.JPanel();
-        SeatsImagePlot = new javax.swing.JLabel();
+        balanceFieldOrderPage = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        balanceNotEnough = new javax.swing.JLabel();
         HistoryPage = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         HistoryTable = new javax.swing.JTable();
@@ -147,18 +175,30 @@ public class WelcomeFrame extends javax.swing.JFrame {
             }
         });
 
+        logoutButton.setBackground(new java.awt.Color(0, 0, 0));
+        logoutButton.setForeground(new java.awt.Color(255, 255, 255));
+        logoutButton.setText("Log Out");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout NavBarLayout = new javax.swing.GroupLayout(NavBar);
         NavBar.setLayout(NavBarLayout);
         NavBarLayout.setHorizontalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Headline1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(Headline2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavBarLayout.createSequentialGroup()
+            .addGroup(NavBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(HistoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(OrderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(HomeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(HistoryButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(OrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(HomeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(NavBarLayout.createSequentialGroup()
+                        .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         NavBarLayout.setVerticalGroup(
@@ -174,7 +214,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
                 .addComponent(OrderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HistoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logoutButton)
+                .addGap(15, 15, 15))
         );
 
         Tab.setBackground(new java.awt.Color(0, 51, 51));
@@ -207,6 +249,20 @@ public class WelcomeFrame extends javax.swing.JFrame {
         jLabel9.setText("Top Gun");
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
+        money.setBackground(new java.awt.Color(255, 204, 102));
+        money.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moneyActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("+");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout HomePageLayout = new javax.swing.GroupLayout(HomePage);
         HomePage.setLayout(HomePageLayout);
         HomePageLayout.setHorizontalGroup(
@@ -222,28 +278,35 @@ public class WelcomeFrame extends javax.swing.JFrame {
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12))
                     .addGroup(HomePageLayout.createSequentialGroup()
-                        .addComponent(TopMovieTitle)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HomePageLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(HomePageTitle2)
-                    .addComponent(HomePageTitle1))
-                .addGap(26, 26, 26))
+                        .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TopMovieTitle)
+                            .addGroup(HomePageLayout.createSequentialGroup()
+                                .addComponent(money, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(HomePageTitle2)
+                            .addComponent(HomePageTitle1))
+                        .addGap(26, 26, 26))))
         );
         HomePageLayout.setVerticalGroup(
             HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HomePageLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(HomePageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(HomePageTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(money, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(HomePageTitle2)
-                .addGap(49, 49, 49)
+                .addGap(26, 26, 26)
                 .addComponent(TopMovieTitle)
                 .addGap(16, 16, 16)
                 .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(138, 138, 138))
         );
@@ -373,35 +436,118 @@ public class WelcomeFrame extends javax.swing.JFrame {
             }
         });
 
+        balanceFieldOrderPage.setBackground(new java.awt.Color(242, 242, 242));
+        balanceFieldOrderPage.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
+        balanceFieldOrderPage.setText("Balance : Rp ");
+
+        jLabel1.setFont(new java.awt.Font("STZhongsong", 2, 18)); // NOI18N
+        jLabel1.setText("Confirmation");
+
+        jLabel3.setText("Movie Name");
+
+        jLabel4.setText("Seats               ");
+
+        jLabel5.setText("Date and Time");
+
+        jLabel6.setText(":");
+
+        jLabel10.setText(":");
+
+        jLabel11.setText(":");
+
+        jLabel12.setText("Location");
+
+        jLabel13.setText(":");
+
+        jLabel14.setFont(new java.awt.Font("STZhongsong", 2, 11)); // NOI18N
+        jLabel14.setText("confirm your order by click the order button");
+
+        jButton1.setText("Top Up");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SeatsPicturePanelLayout = new javax.swing.GroupLayout(SeatsPicturePanel);
         SeatsPicturePanel.setLayout(SeatsPicturePanelLayout);
         SeatsPicturePanelLayout.setHorizontalGroup(
             SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(SeatsImagePlot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
+                        .addComponent(balanceFieldOrderPage, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel12))
+                        .addGap(40, 40, 40)
+                        .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11)))
+                    .addComponent(jLabel14))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         SeatsPicturePanelLayout.setVerticalGroup(
             SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(SeatsImagePlot, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(balanceFieldOrderPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addComponent(jLabel14)
                 .addContainerGap())
         );
+
+        balanceNotEnough.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
+        balanceNotEnough.setForeground(new java.awt.Color(255, 0, 0));
+        balanceNotEnough.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        balanceNotEnough.setText("*your balance isn't enough");
 
         javax.swing.GroupLayout Display2Layout = new javax.swing.GroupLayout(Display2);
         Display2.setLayout(Display2Layout);
         Display2Layout.setHorizontalGroup(
             Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display2Layout.createSequentialGroup()
+            .addGroup(Display2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(SeatsPicturePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(Display2Layout.createSequentialGroup()
+                .addGroup(Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SeatsPicturePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display2Layout.createSequentialGroup()
                         .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
-                        .addComponent(OrderFixButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(OrderFixButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(balanceNotEnough)))
                 .addContainerGap())
         );
         Display2Layout.setVerticalGroup(
@@ -409,7 +555,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(SeatsPicturePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(balanceNotEnough)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(OrderFixButton, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                     .addComponent(BackButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -457,9 +605,17 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Location", "Movie Name", "Tickets", "Time", "Date", "Total Price"
+                "Location", "Movie Name", "Tickets", "Date & Time Order", "Total Price"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(HistoryTable);
 
         HistoryTitle1.setFont(new java.awt.Font("STZhongsong", 1, 36)); // NOI18N
@@ -543,6 +699,18 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void PayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PayButtonActionPerformed
         // TODO add your handling code here:
+        String location = (String) LocationInput.getSelectedItem();
+        String movie = (String) MovieNameInput.getSelectedItem();
+        int seats = (Integer) SeatsInput.getValue();
+        String time = (String) TimeInput.getSelectedItem();
+        
+        if (location.isEmpty() || movie.isEmpty() || time.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter all fields", "Try again", JOptionPane.ERROR_MESSAGE);
+        } else if (seats < 1 || seats > 9) {
+            JOptionPane.showMessageDialog(this, "You can't input this much numbers of seats", "Try again", JOptionPane.ERROR_MESSAGE);
+        } else {
+            
+        }
     }//GEN-LAST:event_PayButtonActionPerformed
 
     private void HomeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeButtonMouseClicked
@@ -622,39 +790,27 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void OrderFixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrderFixButtonActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "We have confirm your order!");
+        
         String location = (String) LocationInput.getSelectedItem();
         String movie = (String) MovieNameInput.getSelectedItem();
-        int seats = (Integer) SeatsInput.getValue();
+        String seats = String.valueOf(SeatsInput.getValue());
         String time = (String) TimeInput.getSelectedItem();
+        ArrayList<String> order = new ArrayList<>();
         
-        if (location.isEmpty() || movie.isEmpty() || time.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter all fields", "Try again", JOptionPane.ERROR_MESSAGE);
-        } else if (seats < 1 || seats > 9) {
-            JOptionPane.showMessageDialog(this, "You can't input this much numbers of seats", "Try again", JOptionPane.ERROR_MESSAGE);
-        } else {
-            DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
-            model.addRow(new Object[] {location, movie, seats, time});
-            JOptionPane.showMessageDialog(null, "We have confirm your order!");
-        }
+        addToTable(location, movie, seats);
+        
+        order.add(location);
+        order.add(movie);
+        order.add(seats);
+        order.add(time);
+        
+        WriteData write = new WriteData();
+        write.WriteData(username, order);
     }//GEN-LAST:event_OrderFixButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
-        Vector<Vector> tableData = model.getDataVector();
-        
-        
-        try {
-            FileOutputStream file = new FileOutputStream(username + ".txt");
-            ObjectOutputStream output = new ObjectOutputStream(file);
-            
-            output.writeObject(tableData);
-            
-            output.close();
-            file.close();
-        } catch (Exception e) {
-            e.printStackTrace();    
-        }
     }//GEN-LAST:event_formWindowClosing
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -663,60 +819,47 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        try {
-            FileInputStream file = new FileInputStream(username + ".txt");
-            ObjectInputStream input = new ObjectInputStream(file);
-            
-            Vector<Vector> tableData = (Vector<Vector>)input.readObject();
-            
-            input.close();
-            file.close();
-            
-            DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
-            
-            for (int i = 0; i < tableData.size(); i++) {
-                Vector row = tableData.get(i);
-                model.addRow(new Object[] {row.get(0), row.get(1), row.get(2), row.get(3)});
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }//GEN-LAST:event_formWindowOpened
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-////        /* Set the Nimbus look and feel */
-////        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-////        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-////         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-////         */
-////        try {
-////            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-////                if ("Nimbus".equals(info.getName())) {
-////                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-////                    break;
-////                }
-////            }
-////        } catch (ClassNotFoundException ex) {
-////            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-////        } catch (InstantiationException ex) {
-////            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-////        } catch (IllegalAccessException ex) {
-////            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-////        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-////            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-////        }
-////        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new WelcomeFrame().setVisible(true);
-//            }
-//        });
-//    }
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Login().setVisible(true);
+    }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private void moneyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_moneyActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void addToTable (String location, String movie, String tickets) {
+        DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
+        model.addRow(new Object[] {location, movie, tickets});
+    }
+    
+    private boolean scanDataTable(String username) {
+        try {
+            File user = new File (username + ".txt");
+            Scanner dataScanner = new Scanner(user);
+            while (dataScanner.hasNextLine()) {
+                String[] keyValue = dataScanner.nextLine().split("/");
+                DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
+                model.addRow(new Object[] {keyValue[0], keyValue[1], keyValue[2]});
+            }
+            dataScanner.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true;
+        }
+        return true;
+    }
 
     private String username;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -743,7 +886,6 @@ public class WelcomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel OrderPage;
     private javax.swing.JLabel OrderTitle1;
     private javax.swing.JLabel OrderTitle2;
-    private javax.swing.JLabel SeatsImagePlot;
     private javax.swing.JSpinner SeatsInput;
     private javax.swing.JLabel SeatsLabel;
     private javax.swing.JPanel SeatsPicturePanel;
@@ -751,10 +893,26 @@ public class WelcomeFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> TimeInput;
     private javax.swing.JLabel TimeLabel;
     private javax.swing.JLabel TopMovieTitle;
+    private javax.swing.JTextField balanceFieldOrderPage;
+    private javax.swing.JLabel balanceNotEnough;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton logoutButton;
+    private javax.swing.JTextField money;
     // End of variables declaration//GEN-END:variables
 }

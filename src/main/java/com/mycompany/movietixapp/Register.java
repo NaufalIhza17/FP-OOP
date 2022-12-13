@@ -39,21 +39,22 @@ public class Register extends javax.swing.JFrame {
     private void initComponents() {
 
         RegisterPanel = new javax.swing.JPanel();
-        RegisterHeadline = new javax.swing.JLabel();
+        javax.swing.JLabel RegisterHeadline = new javax.swing.JLabel();
         UsernameTitleRegister = new javax.swing.JLabel();
         usernameInputRegister = new javax.swing.JTextField();
         PasswordTitleRegister = new javax.swing.JLabel();
-        passwordInputRegister = new javax.swing.JTextField();
         ConfirmpassTitleRegister = new javax.swing.JLabel();
-        confirmpasswordInputRegister = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        passwordInputRegister = new javax.swing.JPasswordField();
+        confirmpasswordInputRegister = new javax.swing.JPasswordField();
         FooterRegister = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(400, 457));
+        setMinimumSize(new java.awt.Dimension(400, 480));
+        setPreferredSize(new java.awt.Dimension(400, 480));
 
         RegisterPanel.setBackground(new java.awt.Color(255, 204, 102));
 
@@ -100,44 +101,42 @@ public class Register extends javax.swing.JFrame {
         RegisterPanel.setLayout(RegisterPanelLayout);
         RegisterPanelLayout.setHorizontalGroup(
             RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegisterPanelLayout.createSequentialGroup()
+            .addGroup(RegisterPanelLayout.createSequentialGroup()
                 .addGap(0, 61, Short.MAX_VALUE)
-                .addGroup(RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel1)
                     .addGroup(RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(PasswordTitleRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usernameInputRegister)
-                            .addComponent(passwordInputRegister, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(UsernameTitleRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(confirmpasswordInputRegister, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addGroup(RegisterPanelLayout.createSequentialGroup()
-                                .addComponent(ConfirmpassTitleRegister)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel2)))))
+                    .addComponent(PasswordTitleRegister, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addComponent(usernameInputRegister, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(UsernameTitleRegister, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, RegisterPanelLayout.createSequentialGroup()
+                        .addComponent(ConfirmpassTitleRegister)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2))
+                    .addComponent(passwordInputRegister, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(confirmpasswordInputRegister, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(59, 59, 59))
             .addGroup(RegisterPanelLayout.createSequentialGroup()
-                .addGap(125, 125, 125)
+                .addGap(130, 130, 130)
                 .addComponent(RegisterHeadline)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         RegisterPanelLayout.setVerticalGroup(
             RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RegisterPanelLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(51, 51, 51)
                 .addComponent(RegisterHeadline)
-                .addGap(41, 41, 41)
+                .addGap(31, 31, 31)
                 .addComponent(UsernameTitleRegister)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(usernameInputRegister, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(PasswordTitleRegister)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordInputRegister, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ConfirmpassTitleRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -162,7 +161,7 @@ public class Register extends javax.swing.JFrame {
         );
         FooterRegisterLayout.setVerticalGroup(
             FooterRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 49, Short.MAX_VALUE)
+            .addGap(0, 42, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -192,6 +191,7 @@ public class Register extends javax.swing.JFrame {
         String username = (String) usernameInputRegister.getText();
         String password = (String) passwordInputRegister.getText();
         String confirmPassword = (String) confirmpasswordInputRegister.getText();
+        WriteData set = new WriteData();
         
         if (!checkUsername(username)){
             jLabel1.setVisible(true);
@@ -201,11 +201,10 @@ public class Register extends javax.swing.JFrame {
                 jLabel2.setVisible(true);
                 jLabel1.setVisible(false);
             } else {
-                writeData(username, password);
+                set.WriteData(username, password);
                 jLabel1.setVisible(false);
                 jLabel2.setVisible(false);
                 JOptionPane.showMessageDialog(this, "Your account is been set!", "Success", HEIGHT);
-
             }
         }
     }//GEN-LAST:event_jButton1MouseClicked
@@ -214,25 +213,8 @@ public class Register extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         new Login().setVisible(true);
-        
     }//GEN-LAST:event_jButton2ActionPerformed
-    
-    private void writeData(String username, String password) {
-        new Thread(() -> {
-            try {
-                FileWriter fileWriter = new FileWriter(data, true);
-                PrintWriter printWriter = new PrintWriter(fileWriter, false);
-                
-                printWriter.println(username + ":" + password);
-                
-                printWriter.close();
-            } catch (Exception ignored) {
-                
-            }
-        }).start();
-    }
-    
-    
+ 
     private boolean checkUsername(String username) {
         try {
             Scanner dataScanner = new Scanner(data);
@@ -249,56 +231,20 @@ public class Register extends javax.swing.JFrame {
         return true;
     }
     
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-////        /* Set the Nimbus look and feel */
-////        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-////        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-////         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-////         */
-////        try {
-////            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-////                if ("Nimbus".equals(info.getName())) {
-////                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-////                    break;
-////                }
-////            }
-////        } catch (ClassNotFoundException ex) {
-////            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-////        } catch (InstantiationException ex) {
-////            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-////        } catch (IllegalAccessException ex) {
-////            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-////        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-////            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-////        }
-////        //</editor-fold>
-//
-//        /* Create and display the form */
-//        
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Register().setVisible(true);
-//            }
-//        });
-//    }
 
     private final File data = new File("data.txt");
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ConfirmpassTitleRegister;
     private javax.swing.JPanel FooterRegister;
     private javax.swing.JLabel PasswordTitleRegister;
-    private javax.swing.JLabel RegisterHeadline;
     private javax.swing.JPanel RegisterPanel;
     private javax.swing.JLabel UsernameTitleRegister;
-    private javax.swing.JTextField confirmpasswordInputRegister;
+    private javax.swing.JPasswordField confirmpasswordInputRegister;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField passwordInputRegister;
+    private javax.swing.JPasswordField passwordInputRegister;
     private javax.swing.JTextField usernameInputRegister;
     // End of variables declaration//GEN-END:variables
 }
