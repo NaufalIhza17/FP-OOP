@@ -42,8 +42,7 @@ Code that will be implemented in this project:
   https://github.com/NaufalIhza17/FP-OOP/blob/c18e725d1cc43689ea051e9e1ba1bb63a6b2fbed/src/main/java/com/mycompany/movietixapp/GoldMember.java#L36-L53
   
   https://github.com/NaufalIhza17/FP-OOP/blob/42cf4987f4a19ab2dfe72204e7fab1c47962d91b/src/main/java/com/mycompany/movietixapp/SilverMember.java#L35-L47
-  
-  
+   
 
 - [x] ArrayList
 
@@ -51,21 +50,7 @@ Code that will be implemented in this project:
 
 - [x] Exception Handling
  
-  ```bash
-      //WriteData
-       try {
-          FileWriter fileWriter = new FileWriter(data, true);
-          PrintWriter printWriter = new PrintWriter(fileWriter, false);
-                
-          printWriter.println(username + ":" + password); 
-                
-           printWriter.close();
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
-        }    
-  ```
-
-  
+  https://github.com/NaufalIhza17/FP-OOP/blob/35b5c1ead7aa18546c78de77e163436c0452f8e8/src/main/java/com/mycompany/movietixapp/WriteData.java#L23-L35
 
 - [x] GUI
 
@@ -77,142 +62,31 @@ Code that will be implemented in this project:
 
 - [x] Interface
  
-  ```bash
-        interface Voucher {
-          public void DiscVoucher();
-        }
-
-        public class Membership implements Voucher {
-        
-        ...
-        
-            @Override
-            public void DiscVoucher() {
-            String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            Random rnd = new Random();
-
-            while (salt.length() < 10) { // length of the random string.
-                int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-                salt.append(SALTCHARS.charAt(index));
-            }
-                salt.append("05");
-            }
-        
-        }
-  ```
-  
-  https://github.com/NaufalIhza17/FP-OOP/blob/c18e725d1cc43689ea051e9e1ba1bb63a6b2fbed/src/main/java/com/mycompany/movietixapp/WriteData.java#L23-L37
+  https://github.com/NaufalIhza17/FP-OOP/blob/35b5c1ead7aa18546c78de77e163436c0452f8e8/src/main/java/com/mycompany/movietixapp/Membership.java#L14-L54
   
 - [x] Abstract Class
  
-  ```bash
-        abstract class Cut {
-            Queue<Integer> discVTotal = new PriorityQueue<>();
-            int totalCut = 0;
-            public abstract void PaymentCut(String code);
-            
-            ...
-            
-        }
-
-      public class Payment extends Cut {
-          @Override
-          public void PaymentCut(String code) {
-                  String value = code;
-                  String lastTwo = null;
-                  
-                  ...
-                  
-          }
-  ```
-
+  https://github.com/NaufalIhza17/FP-OOP/blob/35b5c1ead7aa18546c78de77e163436c0452f8e8/src/main/java/com/mycompany/movietixapp/Payment.java#L17-L51
+  
 - [x] Generics
- 
-  ```bash
-      //WelcomeFrame line 30
-      
-      static <T> String genericDisplayBalance(T element) {
-            return "Rp " + element;
-        }
 
-        static String statusrn;
-        private Payment pushCoupon;
-
-        public WelcomeFrame(String username, Payment pushCoupon) {
-            initComponents();
-            this.username = username;
-            money.setEditable(false);
-            balanceFieldOrderPage.setEditable(false);
-            notEnough.setVisible(false);
-            enough.setVisible(false);
-            scanDataTable(username);
-
-            TopUp balance = new TopUp();
-            money.setText(genericDisplayBalance(balance.getBalance(this.username) - fprice));
-            balanceFieldOrderPage.setText("Balance : " + genericDisplayBalance(balance.getBalance(this.username) - fprice));
-            
-        ...
-        
-        }
-  ```
+  https://github.com/NaufalIhza17/FP-OOP/blob/35b5c1ead7aa18546c78de77e163436c0452f8e8/src/main/java/com/mycompany/movietixapp/WelcomeFrame.java#L29-L49
 
 - [x] Collection
- 
-  ```bash
-        //Payment
-        Queue<Integer> discVTotal = new PriorityQueue<>();
-        int totalCut = 0;
-        public abstract void PaymentCut(String code);
-        public int getPayment() {
-            Iterator iterator = discVTotal.iterator();
-            while(iterator.hasNext()) {
-                totalCut += (int)iterator.next();
-            }
-            return totalCut;
-        }
-  ```
+
+  https://github.com/NaufalIhza17/FP-OOP/blob/35b5c1ead7aa18546c78de77e163436c0452f8e8/src/main/java/com/mycompany/movietixapp/Payment.java#L19-L29
 
 - [x] Input Output
 
   *Input*
- 
-  ```bash
-      //WriteData
-      public void WriteData (String dataName, String username, String password) {
-            File data = new File(dataName + ".txt");
 
-            new Thread(() -> {
-                try {
-                    FileWriter fileWriter = new FileWriter(data, true);
-                    PrintWriter printWriter = new PrintWriter(fileWriter, false);
-
-                    printWriter.println(username + ":" + password); 
-
-                    printWriter.close();
-                } catch (Exception ignored) {
-                    ignored.printStackTrace();
-                }
-            }).start();
-        }
-  ```
+  https://github.com/NaufalIhza17/FP-OOP/blob/35b5c1ead7aa18546c78de77e163436c0452f8e8/src/main/java/com/mycompany/movietixapp/WriteData.java#L20-L35
 
   *Ouput*
   
-  ```bash
-      //Login
-      private boolean checkUsername(String username, String password) {
-            try {
-                Scanner dataScanner = new Scanner(data);
-                while (dataScanner.hasNextLine()) {
-                    String[] keyValue = dataScanner.nextLine().split(":");
-                    if (keyValue[0].equals(username) && keyValue[1].equals(password)) {
-                        return false;
-                    }
-                }
-                dataScanner.close();
-            } catch (Exception e) {
-                return true;
-            }
-            return true;
-        }
-  ```
+  https://github.com/NaufalIhza17/FP-OOP/blob/35b5c1ead7aa18546c78de77e163436c0452f8e8/src/main/java/com/mycompany/movietixapp/Login.java#L187-L203
+ 
+ 
+ ## References
+ 
+ 1. 
