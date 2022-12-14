@@ -53,13 +53,15 @@ Code that will be implemented in this project:
   https://github.com/NaufalIhza17/FP-OOP/blob/35b5c1ead7aa18546c78de77e163436c0452f8e8/src/main/java/com/mycompany/movietixapp/WriteData.java#L23-L35
 
 - [x] GUI
-
+  
+  <p style="center">
   ![loginPageUI](https://user-images.githubusercontent.com/89951546/207502843-dea21f38-1e75-4488-a8a4-98fba15c1363.png)
   
   ![registerPageUI](https://user-images.githubusercontent.com/89951546/207502859-25981ed9-feb8-4f33-ab41-32f0c5f1218c.png)
   
   ![homePageUI2](https://user-images.githubusercontent.com/89951546/207502864-1f8c6dde-f05c-46e4-9cb2-3cbeb1d7e85e.png)
-
+  </p>
+  
 - [x] Interface
  
   https://github.com/NaufalIhza17/FP-OOP/blob/35b5c1ead7aa18546c78de77e163436c0452f8e8/src/main/java/com/mycompany/movietixapp/Membership.java#L14-L54
