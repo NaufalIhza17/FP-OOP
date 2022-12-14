@@ -15,9 +15,11 @@ import java.util.Stack;
  */
 
 abstract class Cut {
+    public abstract void PaymentCut(String code);
+    
     Queue<Integer> discVTotal = new PriorityQueue<>();
     int totalCut = 0;
-    public abstract void PaymentCut(String code);
+    
     public int getPayment() {
         Iterator iterator = discVTotal.iterator();
         while(iterator.hasNext()) {
@@ -45,13 +47,5 @@ public class Payment extends Cut {
                 }
             }
     }
-    
-//    public static void main(String args[]) {
-//        Payment a = new Payment();
-//        
-//        a.PaymentCut("AGHCH1231205");
-//        a.PaymentCut("AGHCH1231210");
-//        a.PaymentCut("AGHCH1231230");
-//        System.out.println(a.getPayment(30000));
-//    }
+
 }

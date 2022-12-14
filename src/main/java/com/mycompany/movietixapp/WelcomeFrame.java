@@ -859,11 +859,11 @@ public class WelcomeFrame extends javax.swing.JFrame {
             }
             
             //DISCOUNT
-            
-            disc.setText(Integer.toString(pushCoupon.getPayment()));
+            int d = pushCoupon.getPayment();
+            disc.setText(Integer.toString(d));
             
             //FINAL PRICE
-            fprice = totalPrice - pushCoupon.getPayment();
+            fprice = totalPrice - d;
             finalPrice.setText(Integer.toString(fprice));
             
             // Add Panel
@@ -916,6 +916,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
             
             WriteData min = new WriteData();
             min.WriteData(username, -fprice);
+            
+            this.setVisible(false);
+            new WelcomeFrame(username, new Payment()).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Top Up First!");
         }

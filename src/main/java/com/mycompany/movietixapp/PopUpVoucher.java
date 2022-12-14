@@ -23,7 +23,6 @@ public class PopUpVoucher extends javax.swing.JFrame {
     public PopUpVoucher(String username, String statusrn, Payment pushCoupon) {
         initComponents();
         name = username;
-//        Membership a;
         
         if ("GOLD".equals(statusrn)){
             GoldMember a = new GoldMember();

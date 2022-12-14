@@ -16,7 +16,6 @@ import java.util.Scanner;
  * @author M Naufal Ihza S
  */
 public class WriteData {
-//    private final File data = new File("data.txt");
     
     public void WriteData (String dataName, String username, String password) {
         File data = new File(dataName + ".txt");
