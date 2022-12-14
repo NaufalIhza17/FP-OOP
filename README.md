@@ -89,4 +89,6 @@ Code that will be implemented in this project:
  
  ## References
  
- 1. 
+ 1. Friends
+ 2. [GeeksForGeeks](https://www.geeksforgeeks.org/) (There's a lot from here, so I only include the main link)
+ 3. [youtubeLinkOne](https://www.youtube.com/watch?v=F0Zq2fAUpXg) , [youtubeLinkTwo](https://www.youtube.com/watch?v=U3zO4znmYB0) [youtubeLinkThree](https://www.youtube.com/watch?v=ohEFX1OngxE)
