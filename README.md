@@ -54,7 +54,7 @@ Code that will be implemented in this project:
 
 - [x] GUI
   
-  <p align="center">
+  <img align="center">
   ![loginPageUI](https://user-images.githubusercontent.com/89951546/207502843-dea21f38-1e75-4488-a8a4-98fba15c1363.png)
   
   ![registerPageUI](https://user-images.githubusercontent.com/89951546/207502859-25981ed9-feb8-4f33-ab41-32f0c5f1218c.png)
