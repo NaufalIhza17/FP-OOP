@@ -6,6 +6,7 @@ package com.mycompany.movietixapp;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,19 +27,46 @@ import javax.swing.table.DefaultTableModel;
  */
 public class WelcomeFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form WelcomeFrame
-     */
-    public WelcomeFrame(String username) {
+    static <T> String genericDisplayBalance(T element) {
+        return "Rp " + element;
+    }
+    
+    static String statusrn;
+    private Payment pushCoupon;
+    
+    public WelcomeFrame(String username, Payment pushCoupon) {
         initComponents();
         this.username = username;
         money.setEditable(false);
         balanceFieldOrderPage.setEditable(false);
-        balanceNotEnough.setVisible(false);
+        notEnough.setVisible(false);
+        enough.setVisible(false);
         scanDataTable(username);
-        money.setText("Rp"); //BALANCE CAL INPUT
+        
+        TopUp balance = new TopUp();
+        money.setText(genericDisplayBalance(balance.getBalance(this.username) - fprice));
+        balanceFieldOrderPage.setText("Balance : " + genericDisplayBalance(balance.getBalance(this.username) - fprice));
+        
+        Membership statusR = new Membership();
+        GoldMember statusG = new GoldMember();
+        SilverMember statusS = new SilverMember();
+        
+        if (countTransaction() > 10) {
+            memberStatus.setText(statusG.getStatus());
+            statusrn = statusG.getStatus();
+        } else if (countTransaction() > 5) {
+            memberStatus.setText(statusS.getStatus());
+            statusrn = statusS.getStatus();
+        } else {
+            memberStatus.setText(statusR.getStatus());
+            statusrn = statusR.getStatus();
+        }
+        
+        this.pushCoupon = pushCoupon;
+        
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,6 +84,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
         HistoryButton = new javax.swing.JButton();
         OrderButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
+        memberStatus = new javax.swing.JTextField();
         Tab = new javax.swing.JPanel();
         HomePage = new javax.swing.JPanel();
         HomePageTitle1 = new javax.swing.JLabel();
@@ -66,6 +95,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         money = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         OrderPage = new javax.swing.JPanel();
         OrderTitle1 = new javax.swing.JLabel();
         OrderTitle2 = new javax.swing.JLabel();
@@ -88,15 +118,19 @@ public class WelcomeFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        balanceNotEnough = new javax.swing.JLabel();
+        total = new javax.swing.JTextField();
+        enough = new javax.swing.JLabel();
+        notEnough = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        disc = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        finalPrice = new javax.swing.JTextField();
         HistoryPage = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         HistoryTable = new javax.swing.JTable();
@@ -184,6 +218,17 @@ public class WelcomeFrame extends javax.swing.JFrame {
             }
         });
 
+        memberStatus.setEditable(false);
+        memberStatus.setBackground(new java.awt.Color(255, 255, 255));
+        memberStatus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        memberStatus.setForeground(new java.awt.Color(153, 0, 153));
+        memberStatus.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        memberStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                memberStatusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout NavBarLayout = new javax.swing.GroupLayout(NavBar);
         NavBar.setLayout(NavBarLayout);
         NavBarLayout.setHorizontalGroup(
@@ -200,6 +245,10 @@ public class WelcomeFrame extends javax.swing.JFrame {
                         .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(NavBarLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(memberStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         NavBarLayout.setVerticalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +257,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
                 .addComponent(Headline1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Headline2)
-                .addGap(91, 91, 91)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(memberStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
                 .addComponent(HomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(OrderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -263,6 +314,15 @@ public class WelcomeFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(255, 204, 102));
+        jButton3.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
+        jButton3.setText("SEE DISCOUNT");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout HomePageLayout = new javax.swing.GroupLayout(HomePage);
         HomePage.setLayout(HomePageLayout);
         HomePageLayout.setHorizontalGroup(
@@ -270,13 +330,6 @@ public class WelcomeFrame extends javax.swing.JFrame {
             .addGroup(HomePageLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(HomePageLayout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))
                     .addGroup(HomePageLayout.createSequentialGroup()
                         .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TopMovieTitle)
@@ -288,7 +341,18 @@ public class WelcomeFrame extends javax.swing.JFrame {
                         .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(HomePageTitle2)
                             .addComponent(HomePageTitle1))
-                        .addGap(26, 26, 26))))
+                        .addGap(26, 26, 26))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HomePageLayout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12))))
+            .addGroup(HomePageLayout.createSequentialGroup()
+                .addGap(155, 155, 155)
+                .addComponent(jButton3)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         HomePageLayout.setVerticalGroup(
             HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,9 +370,11 @@ public class WelcomeFrame extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(HomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(138, 138, 138))
+                .addGap(61, 61, 61)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         Tab.add(HomePage, "card2");
@@ -443,21 +509,13 @@ public class WelcomeFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("STZhongsong", 2, 18)); // NOI18N
         jLabel1.setText("Confirmation");
 
-        jLabel3.setText("Movie Name");
+        jLabel3.setText("Your Total");
 
-        jLabel4.setText("Seats               ");
-
-        jLabel5.setText("Date and Time");
+        jLabel4.setText("Your Balance");
 
         jLabel6.setText(":");
 
         jLabel10.setText(":");
-
-        jLabel11.setText(":");
-
-        jLabel12.setText("Location");
-
-        jLabel13.setText(":");
 
         jLabel14.setFont(new java.awt.Font("STZhongsong", 2, 11)); // NOI18N
         jLabel14.setText("confirm your order by click the order button");
@@ -468,6 +526,31 @@ public class WelcomeFrame extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        total.setEditable(false);
+
+        enough.setForeground(new java.awt.Color(0, 255, 0));
+        enough.setText("ENOUGH");
+
+        notEnough.setForeground(new java.awt.Color(255, 0, 0));
+        notEnough.setText("NOT ENOUGH");
+
+        jLabel2.setText("Discount");
+
+        jLabel5.setText(":");
+
+        disc.setEditable(false);
+        disc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                discActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Final Price");
+
+        jLabel12.setText(":");
+
+        finalPrice.setEditable(false);
 
         javax.swing.GroupLayout SeatsPicturePanelLayout = new javax.swing.GroupLayout(SeatsPicturePanel);
         SeatsPicturePanel.setLayout(SeatsPicturePanelLayout);
@@ -480,23 +563,38 @@ public class WelcomeFrame extends javax.swing.JFrame {
                         .addComponent(balanceFieldOrderPage, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
+                    .addComponent(jLabel14)
                     .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel12))
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel11))
                         .addGap(40, 40, 40)
-                        .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)))
-                    .addComponent(jLabel14))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(disc))
+                            .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(enough)
+                                .addGap(31, 31, 31)
+                                .addComponent(notEnough)
+                                .addGap(33, 33, 33))
+                            .addGroup(SeatsPicturePanelLayout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addGap(18, 18, 18)
+                                .addComponent(finalPrice)))))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         SeatsPicturePanelLayout.setVerticalGroup(
             SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -510,28 +608,28 @@ public class WelcomeFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel10)
+                    .addComponent(enough)
+                    .addComponent(notEnough))
+                .addGap(18, 18, 18)
                 .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(disc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(SeatsPicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                    .addComponent(finalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(jLabel14)
                 .addContainerGap())
         );
-
-        balanceNotEnough.setFont(new java.awt.Font("STZhongsong", 0, 12)); // NOI18N
-        balanceNotEnough.setForeground(new java.awt.Color(255, 0, 0));
-        balanceNotEnough.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        balanceNotEnough.setText("*your balance isn't enough");
 
         javax.swing.GroupLayout Display2Layout = new javax.swing.GroupLayout(Display2);
         Display2.setLayout(Display2Layout);
@@ -544,10 +642,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display2Layout.createSequentialGroup()
                         .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
-                        .addComponent(OrderFixButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(balanceNotEnough)))
+                        .addComponent(OrderFixButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         Display2Layout.setVerticalGroup(
@@ -555,9 +650,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Display2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(SeatsPicturePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(balanceNotEnough)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addGroup(Display2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(OrderFixButton, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                     .addComponent(BackButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -686,7 +779,6 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void HomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButtonActionPerformed
         // TODO add your handling code here:
-       
     }//GEN-LAST:event_HomeButtonActionPerformed
 
     private void HistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoryButtonActionPerformed
@@ -699,18 +791,6 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void PayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PayButtonActionPerformed
         // TODO add your handling code here:
-        String location = (String) LocationInput.getSelectedItem();
-        String movie = (String) MovieNameInput.getSelectedItem();
-        int seats = (Integer) SeatsInput.getValue();
-        String time = (String) TimeInput.getSelectedItem();
-        
-        if (location.isEmpty() || movie.isEmpty() || time.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter all fields", "Try again", JOptionPane.ERROR_MESSAGE);
-        } else if (seats < 1 || seats > 9) {
-            JOptionPane.showMessageDialog(this, "You can't input this much numbers of seats", "Try again", JOptionPane.ERROR_MESSAGE);
-        } else {
-            
-        }
     }//GEN-LAST:event_PayButtonActionPerformed
 
     private void HomeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeButtonMouseClicked
@@ -763,7 +843,29 @@ public class WelcomeFrame extends javax.swing.JFrame {
             Display.removeAll();
             Display.repaint();
             Display.revalidate();
-        
+            
+            
+            int seat = (int) SeatsInput.getValue();
+            int totalPrice = 35000 * seat;
+            total.setText(String.valueOf(totalPrice));
+            TopUp checkEnough = new TopUp();
+            
+            if(checkEnough.getBalance(username) > totalPrice) {
+                notEnough.setVisible(false);
+                enough.setVisible(true);
+            } else {
+                enough.setVisible(false);
+                notEnough.setVisible(true);
+            }
+            
+            //DISCOUNT
+            
+            disc.setText(Integer.toString(pushCoupon.getPayment()));
+            
+            //FINAL PRICE
+            fprice = totalPrice - pushCoupon.getPayment();
+            finalPrice.setText(Integer.toString(fprice));
+            
             // Add Panel
             Display.add(Display2);
             Display.repaint();
@@ -785,28 +887,38 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void OrderFixButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrderFixButtonMouseClicked
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_OrderFixButtonMouseClicked
 
     private void OrderFixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrderFixButtonActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "We have confirm your order!");
+        int seat = (int) SeatsInput.getValue();
+        int totalPrice = 35000 * seat;
         
-        String location = (String) LocationInput.getSelectedItem();
-        String movie = (String) MovieNameInput.getSelectedItem();
-        String seats = String.valueOf(SeatsInput.getValue());
-        String time = (String) TimeInput.getSelectedItem();
-        ArrayList<String> order = new ArrayList<>();
-        
-        addToTable(location, movie, seats);
-        
-        order.add(location);
-        order.add(movie);
-        order.add(seats);
-        order.add(time);
-        
-        WriteData write = new WriteData();
-        write.WriteData(username, order);
+        TopUp check = new TopUp();
+        if(check.getBalance(username) > totalPrice) {
+            JOptionPane.showMessageDialog(null, "We have confirm your order!");
+
+            String location = (String) LocationInput.getSelectedItem();
+            String movie = (String) MovieNameInput.getSelectedItem();
+            String seats = String.valueOf(SeatsInput.getValue());
+            String time = (String) TimeInput.getSelectedItem();
+            ArrayList<String> order = new ArrayList<>();
+
+            addToTable(location, movie, seats);
+
+            order.add(location);
+            order.add(movie);
+            order.add(seats);
+            order.add(time);
+
+            WriteData write = new WriteData();
+            write.WriteData(username, order);
+            
+            WriteData min = new WriteData();
+            min.WriteData(username, -fprice);
+        } else {
+            JOptionPane.showMessageDialog(null, "Top Up First!");
+        }
     }//GEN-LAST:event_OrderFixButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -833,11 +945,29 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        new TopUpFrame(username, pushCoupon).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        new TopUpFrame(username, pushCoupon).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void memberStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_memberStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_memberStatusActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new PopUpVoucher(username, statusrn, pushCoupon).setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void discActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_discActionPerformed
 
     private void addToTable (String location, String movie, String tickets) {
         DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
@@ -860,7 +990,28 @@ public class WelcomeFrame extends javax.swing.JFrame {
         }
         return true;
     }
-
+    
+    private int countTransaction() {
+        int count = 0;
+        
+        File user = new File (username + ".txt");
+        Scanner dataScanner = null;
+        try {
+            dataScanner = new Scanner(user);
+        } catch (FileNotFoundException ex) {
+            return 0;
+        }
+        
+        while (dataScanner.hasNextLine()) {
+            count++;
+            dataScanner.nextLine();
+        }
+        dataScanner.close();
+        
+        return count;
+    }
+    
+    public int fprice = 0;
     private String username;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Display;
@@ -894,15 +1045,18 @@ public class WelcomeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel TimeLabel;
     private javax.swing.JLabel TopMovieTitle;
     private javax.swing.JTextField balanceFieldOrderPage;
-    private javax.swing.JLabel balanceNotEnough;
+    private javax.swing.JTextField disc;
+    private javax.swing.JLabel enough;
+    private javax.swing.JTextField finalPrice;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -913,6 +1067,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton logoutButton;
+    private javax.swing.JTextField memberStatus;
     private javax.swing.JTextField money;
+    private javax.swing.JLabel notEnough;
+    private javax.swing.JTextField total;
     // End of variables declaration//GEN-END:variables
 }

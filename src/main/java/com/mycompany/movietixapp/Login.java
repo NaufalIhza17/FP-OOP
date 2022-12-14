@@ -174,15 +174,12 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String username = (String) usernameInputLogin.getText();
         String password = (String) passwordInputLogin.getText();
-        System.out.println(password);
-//        BalanceCalculator a = new BalanceCalculator();
-//        JOptionPane.showMessageDialog(this, a.getSaltString());
         
         if (!checkUsername(username, password)){
             notMatch.setVisible(false);
             this.setVisible(false);
             
-            new WelcomeFrame(username).setVisible(true);
+            new WelcomeFrame(username, new Payment()).setVisible(true);
         } else  {
             notMatch.setVisible(true);
         }

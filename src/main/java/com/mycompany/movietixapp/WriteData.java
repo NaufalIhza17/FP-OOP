@@ -16,9 +16,11 @@ import java.util.Scanner;
  * @author M Naufal Ihza S
  */
 public class WriteData {
-    private final File data = new File("data.txt");
+//    private final File data = new File("data.txt");
     
-    public void WriteData (String username, String password) {
+    public void WriteData (String dataName, String username, String password) {
+        File data = new File(dataName + ".txt");
+        
         new Thread(() -> {
             try {
                 FileWriter fileWriter = new FileWriter(data, true);
@@ -28,7 +30,25 @@ public class WriteData {
                 
                 printWriter.close();
             } catch (Exception ignored) {
+                ignored.printStackTrace();
+            }
+        }).start();
+    }
+    
+    public void WriteData (String dataName, int balance) {
+        File data = new File("balance.txt");
+        String bal = String.valueOf(balance);
+        
+        new Thread(() -> {
+            try {
+                FileWriter fileWriter = new FileWriter(data, true);
+                PrintWriter printWriter = new PrintWriter(fileWriter, false);
                 
+                printWriter.println(dataName + ":" + bal); 
+                
+                printWriter.close();
+            } catch (Exception ignored) {
+                ignored.printStackTrace();
             }
         }).start();
     }
@@ -51,8 +71,5 @@ public class WriteData {
             }
         }).start();
     }
-    
-    
-    
 }
 
